@@ -1,0 +1,5 @@
+LOVE_PATH=
+
+ifeq ($(LOVE_PATH),)
+$(error Please specify LOVE_PATH in config.mk)
+endif

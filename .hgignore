@@ -1,0 +1,8 @@
+\.mp4$
+\.ogv$
+^\.vimrc$
+\.o$
+\..*\.swp$
+\.so$
+\.d$
+^config\.mk$
