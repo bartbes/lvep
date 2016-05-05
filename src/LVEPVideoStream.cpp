@@ -43,6 +43,7 @@ love::video::VideoStream::Frame *LVEPVideoStream::allocateBuffer()
 	buffer->yh = getHeight();
 
 	// TODO: Format support (non yuv420p)
+	// swrast to recode?
 	buffer->cw = getWidth()/2;
 	buffer->ch = getHeight()/2;
 
@@ -70,6 +71,7 @@ const std::string &LVEPVideoStream::getFilename() const
 
 void LVEPVideoStream::fillBackBuffer()
 {
+	// TODO: End-of-stream
 	double curTime = love::timer::Timer::getTimeSinceEpoch();
 	double dt = curTime-previousTime;
 	previousTime = curTime;
