@@ -87,7 +87,8 @@ bool FFMpegStream::readFrame(AVFrame *frame)
 	int got_frame = 0;
 	while (!got_frame)
 	{
-		readPacket();
+		if (!readPacket())
+			return false;
 		if (decoder(codecContext, frame, &got_frame, &packet) < 0)
 			return false;
 	}
