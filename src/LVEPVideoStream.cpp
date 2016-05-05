@@ -21,12 +21,8 @@ LVEPVideoStream::LVEPVideoStream(love::filesystem::File *file)
 
 	// frameSync is a StrongRef, so it retains itself, so after set it has a reference
 	// count of 2, rather than 1
-#if LVEP_NEW_LOVE
-	frameSync.set(new love::video::VideoStream::DeltaSync(), love::Acquire::NORETAIN);
-#else
 	frameSync.set(new love::video::VideoStream::DeltaSync());
 	frameSync->release();
-#endif
 
 	previousTime = love::timer::Timer::getTimeSinceEpoch();
 }
