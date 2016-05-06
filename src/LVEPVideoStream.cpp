@@ -72,6 +72,7 @@ const std::string &LVEPVideoStream::getFilename() const
 void LVEPVideoStream::fillBackBuffer()
 {
 	// TODO: End-of-stream
+	// TODO: Seeking
 	double curTime = love::timer::Timer::getTimeSinceEpoch();
 	double dt = curTime-previousTime;
 	previousTime = curTime;
