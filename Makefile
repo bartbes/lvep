@@ -15,6 +15,7 @@ LDLIBS+=-llove
 $(call pkgconfig,libavformat)
 $(call pkgconfig,libavcodec)
 $(call pkgconfig,libavutil)
+$(call pkgconfig,libswresample)
 $(call pkgconfig,luajit)
 
 SOURCES=$(wildcard src/*.cpp)
