@@ -33,6 +33,7 @@ public:
 
 	bool readFrame(AVFrame *frame);
 	double translateTimestamp(int64_t ts) const;
+	double getDuration() const;
 
 private:
 	LFSIOContext ioContext;

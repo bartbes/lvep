@@ -101,3 +101,8 @@ double FFMpegStream::translateTimestamp(int64_t ts) const
 	AVRational &base = formatContext->streams[targetStream]->time_base;
 	return (ts*base.num)/double(base.den);
 }
+
+double FFMpegStream::getDuration() const
+{
+	return translateTimestamp(formatContext->streams[targetStream]->duration);
+}
