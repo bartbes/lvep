@@ -2,6 +2,7 @@
 \.ogv$
 \.wav$
 ^\.vimrc$
+^\.clang_complete$
 \.o$
 \..*\.swp$
 \.so$
