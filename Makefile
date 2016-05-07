@@ -38,4 +38,9 @@ liblvep.so: $(SOURCES:.cpp=.o)
 	echo "let g:syntastic_cpp_compiler='$(CXX)'" >> $@
 	echo "let g:syntastic_cpp_compiler_options='$(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)'" >> $@
 
+.clang_complete:
+	$(RM) $@
+	echo "$(CPPFLAGS)" >> $@
+	echo "$(CXXFLAGS)" >> $@
+
 -include $(SOURCES:.cpp=.d)
