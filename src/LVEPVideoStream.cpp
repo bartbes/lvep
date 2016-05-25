@@ -86,7 +86,11 @@ void LVEPVideoStream::fillBackBuffer()
 	{
 		stream->seek(time);
 		stream->readFrame(frame);
-		previousFrame = time;
+
+		// Now we're at the keyframe before our target, look for the actual frame
+		while (time > stream->translateTimestamp(frame->pkt_pts + frame->pkt_duration))
+			stream->readFrame(frame);
+
 		eos = false;
 	}
 
