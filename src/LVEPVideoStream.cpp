@@ -73,7 +73,6 @@ const std::string &LVEPVideoStream::getFilename() const
 
 void LVEPVideoStream::fillBackBuffer()
 {
-	// TODO: Seeking forward
 	double curTime = love::timer::Timer::getTimeSinceEpoch();
 	double dt = curTime-previousTime;
 	previousTime = curTime;
@@ -88,9 +87,7 @@ void LVEPVideoStream::fillBackBuffer()
 		stream->readFrame(frame);
 
 		// Now we're at the keyframe before our target, look for the actual frame
-		while (time > stream->translateTimestamp(frame->pkt_pts + frame->pkt_duration))
-			stream->readFrame(frame);
-
+		tinySeek(time);
 		eos = false;
 	}
 
@@ -100,6 +97,14 @@ void LVEPVideoStream::fillBackBuffer()
 	double pts = stream->translateTimestamp(frame->pkt_pts);
 	if (time < pts)
 		return;
+
+	if (time > pts+15) // We're far behind, do a large seek
+	{
+		stream->seek(time);
+		stream->readFrame(frame);
+	}
+	if (time > pts+0.2) // We're a bit behind, do a tiny seek
+		tinySeek(time);
 
 	dirty = true;
 	previousFrame = pts;
@@ -132,4 +137,10 @@ bool LVEPVideoStream::swapBuffers()
 	frontBuffer = backBuffer;
 	backBuffer = temp;
 	return true;
+}
+
+void LVEPVideoStream::tinySeek(double target)
+{
+	while (target > stream->translateTimestamp(frame->pkt_pts + frame->pkt_duration))
+		stream->readFrame(frame);
 }

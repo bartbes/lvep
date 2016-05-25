@@ -19,7 +19,7 @@ function love.keypressed(key)
 	if key == "escape" then
 		return love.event.quit()
 	elseif key == "space" then
-		aud:seek(1)
+		aud:seek(5)
 		if not aud:isPlaying() then
 			aud:play()
 		end
