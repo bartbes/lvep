@@ -106,3 +106,11 @@ double FFMpegStream::getDuration() const
 {
 	return translateTimestamp(formatContext->streams[targetStream]->duration);
 }
+
+bool FFMpegStream::seek(double target)
+{
+	AVRational &base = formatContext->streams[targetStream]->time_base;
+	int64_t ts = target*base.den/double(base.num);
+	avcodec_flush_buffers(codecContext);
+	return av_seek_frame(formatContext, targetStream, ts, AVSEEK_FLAG_BACKWARD) >= 0;
+}

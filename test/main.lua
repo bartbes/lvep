@@ -15,6 +15,14 @@ function love.load()
 	aud:play()
 end
 
+function love.keypressed(key)
+	if key == "escape" then
+		return love.event.quit()
+	elseif key == "space" then
+		aud:seek(1)
+	end
+end
+
 function love.draw()
 	love.graphics.draw(vid)
 end
