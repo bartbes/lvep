@@ -44,4 +44,5 @@ private:
 	love::video::VideoStream::Frame *backBuffer;
 
 	love::video::VideoStream::Frame *allocateBuffer();
+	void tinySeek(double target);
 };
