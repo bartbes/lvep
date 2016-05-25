@@ -73,6 +73,7 @@ int LVEPDecoder::decode()
 
 bool LVEPDecoder::seek(float s)
 {
+	eos = false;
 	return stream.seek(s);
 }
 

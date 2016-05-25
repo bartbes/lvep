@@ -6,6 +6,7 @@ LVEPVideoStream::LVEPVideoStream(love::filesystem::File *file)
 	: stream(new FFMpegStream(file, FFMpegStream::TYPE_VIDEO))
 	, file(file)
 	, dirty(false)
+	, eos(false)
 	, previousTime(0)
 	, previousFrame(0)
 {
@@ -72,7 +73,6 @@ const std::string &LVEPVideoStream::getFilename() const
 
 void LVEPVideoStream::fillBackBuffer()
 {
-	// TODO: End-of-stream
 	// TODO: Seeking forward
 	double curTime = love::timer::Timer::getTimeSinceEpoch();
 	double dt = curTime-previousTime;
@@ -87,7 +87,11 @@ void LVEPVideoStream::fillBackBuffer()
 		stream->seek(time);
 		stream->readFrame(frame);
 		previousFrame = time;
+		eos = false;
 	}
+
+	if (eos)
+		return;
 
 	double pts = stream->translateTimestamp(frame->pkt_pts);
 	if (time < pts)
@@ -100,7 +104,8 @@ void LVEPVideoStream::fillBackBuffer()
 	memcpy(backBuffer->cbplane, frame->data[1], backBuffer->cw*backBuffer->ch);
 	memcpy(backBuffer->crplane, frame->data[2], backBuffer->cw*backBuffer->ch);
 
-	stream->readFrame(frame);
+	if (!stream->readFrame(frame))
+		eos = true;
 }
 
 const void *LVEPVideoStream::getFrontBuffer() const
