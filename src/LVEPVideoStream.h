@@ -36,6 +36,7 @@ private:
 
 	AVFrame *frame;
 	bool dirty;
+	bool eos;
 	double previousTime;
 	double previousFrame;
 
