@@ -7,6 +7,7 @@ LVEPVideoStream::LVEPVideoStream(love::filesystem::File *file)
 	, file(file)
 	, dirty(false)
 	, previousTime(0)
+	, previousFrame(0)
 {
 	frame = av_frame_alloc();
 	if (!stream->readFrame(frame))
@@ -72,19 +73,28 @@ const std::string &LVEPVideoStream::getFilename() const
 void LVEPVideoStream::fillBackBuffer()
 {
 	// TODO: End-of-stream
-	// TODO: Seeking
+	// TODO: Seeking forward
 	double curTime = love::timer::Timer::getTimeSinceEpoch();
 	double dt = curTime-previousTime;
 	previousTime = curTime;
 
 	frameSync->update(dt);
 	double time = frameSync->getPosition();
-	double pts = stream->translateTimestamp(frame->pkt_pts);
 
+	// If we've drawn a frame past the current timestamp, we must have rewound
+	if (time < previousFrame)
+	{
+		stream->seek(time);
+		stream->readFrame(frame);
+		previousFrame = time;
+	}
+
+	double pts = stream->translateTimestamp(frame->pkt_pts);
 	if (time < pts)
 		return;
 
 	dirty = true;
+	previousFrame = pts;
 
 	memcpy(backBuffer->yplane, frame->data[0], backBuffer->yw*backBuffer->yh);
 	memcpy(backBuffer->cbplane, frame->data[1], backBuffer->cw*backBuffer->ch);

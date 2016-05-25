@@ -37,6 +37,7 @@ private:
 	AVFrame *frame;
 	bool dirty;
 	double previousTime;
+	double previousFrame;
 
 	love::video::VideoStream::Frame *frontBuffer;
 	love::video::VideoStream::Frame *backBuffer;
