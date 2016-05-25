@@ -73,8 +73,7 @@ int LVEPDecoder::decode()
 
 bool LVEPDecoder::seek(float s)
 {
-	// TODO
-	return false;
+	return stream.seek(s);
 }
 
 bool LVEPDecoder::rewind()
@@ -84,8 +83,7 @@ bool LVEPDecoder::rewind()
 
 bool LVEPDecoder::isSeekable()
 {
-	// TODO
-	return false;
+	return true;
 }
 
 bool LVEPDecoder::isFinished()
