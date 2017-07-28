@@ -17,6 +17,11 @@ end
 
 function love.keypressed(key)
 	if key == "escape" then
+		vid:pause()
+		aud:stop()
+		vid, aud = nil, nil
+		collectgarbage("collect")
+		collectgarbage("collect")
 		return love.event.quit()
 	elseif key == "space" then
 		aud:seek(5)
