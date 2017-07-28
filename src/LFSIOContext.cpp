@@ -15,7 +15,6 @@ LFSIOContext::LFSIOContext(love::filesystem::File *file)
 LFSIOContext::~LFSIOContext()
 {
 	av_free(context);
-	av_free(buffer);
 }
 
 LFSIOContext::operator AVIOContext *()
