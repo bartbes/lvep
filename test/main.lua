@@ -1,13 +1,13 @@
 function love.load()
 	package.cpath = "./lib?.so"
-	newVideoStream, newDecoder = unpack(require "lvep")
+	lvep = require "lvep"
 	do
 		local f = love.filesystem.newFile("sintel.mp4")
-		vs = newVideoStream(f)
+		vs = lvep.newVideoStream(f)
 	end
 	do
 		local f = love.filesystem.newFile("sintel.mp4")
-		d = newDecoder(f)
+		d = lvep.newDecoder(f)
 	end
 	vid = love.graphics.newVideo(vs)
 	aud = love.audio.newSource(d)
