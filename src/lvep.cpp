@@ -40,8 +40,8 @@ extern "C" int luaopen_lvep(lua_State *L)
 
 	lua_newtable(L);
 	lua_pushcfunction(L, w_newVideoStream);
-	lua_rawseti(L, -2, 1);
+	lua_setfield(L, -2, "newVideoStream");
 	lua_pushcfunction(L, w_newDecoder);
-	lua_rawseti(L, -2, 2);
+	lua_setfield(L, -2, "newDecoder");
 	return 1;
 }
