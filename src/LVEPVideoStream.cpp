@@ -26,7 +26,7 @@ LVEPVideoStream::LVEPVideoStream(love::filesystem::File *file)
 	frameSync.set(new love::video::VideoStream::DeltaSync());
 	frameSync->release();
 
-	previousTime = love::timer::Timer::getTimeSinceEpoch();
+	previousTime = love::timer::Timer::getTime();
 }
 
 LVEPVideoStream::~LVEPVideoStream()
@@ -73,7 +73,7 @@ const std::string &LVEPVideoStream::getFilename() const
 
 void LVEPVideoStream::fillBackBuffer()
 {
-	double curTime = love::timer::Timer::getTimeSinceEpoch();
+	double curTime = love::timer::Timer::getTime();
 	double dt = curTime-previousTime;
 	previousTime = curTime;
 
